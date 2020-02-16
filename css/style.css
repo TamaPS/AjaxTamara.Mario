@@ -1,0 +1,16 @@
+/* ================================= 
+  Element Styles
+==================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+  .wrapper {
+    width: 90%;
+  }
+  .main {
+    padding: 3.8em 1.5em .75em;
+    position: relative;
+    z-index: 10;
+  }
