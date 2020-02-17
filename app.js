@@ -24,10 +24,19 @@ obtenerRespuesta("https://api.thecatapi.com/v1/categories").then(
     manejarError
 );
 
-obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=1&limit=6&order=asc&category_ids=5").then(
+obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=1&limit=6&order=asc&category_ids=").then(
     manejarRespuestaImages,
     manejarError
 );
+
+var select = document.getElementById("cuadroLista");
+
+select.addEventListener("change", function() {
+    obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=1&limit=6&order=asc&category_ids="+select.value).then(
+        manejarRespuestaImages,
+        manejarError
+    );
+});
 
 function manejarRespuestaCategories(respuesta) {
     var categorias = '<option value="">none</option>';
@@ -38,9 +47,10 @@ function manejarRespuestaCategories(respuesta) {
 }
 
 function manejarRespuestaImages(respuesta) {
-    var fotos;
+    var fotos = '';
     for (var i = 0; i < respuesta.length; i++) {
-        fotos += '<div class="col col-12 col-sm-6 col-md-4 d-block h-100"><img src="' + respuesta[i].url + '" alt="' + respuesta[i].id + '" class="img-fluid img-thumbnail"></div>';
+        //fotos += '<div class="card square"><div class="card-body"><img class="card-img-top" width="200" src="' + respuesta[i].url + '" alt="' + respuesta[i].id + '"></div></div>';
+        fotos += '<div class="col-12 col-md-6 col-xl-4"><div class="card square  text-center"><img class="card-img-top" width="200" src="' + respuesta[i].url + '" alt="' + respuesta[i].id + '"></div></div>';
     }
     document.getElementsByClassName("row")[0].innerHTML = fotos;
 }

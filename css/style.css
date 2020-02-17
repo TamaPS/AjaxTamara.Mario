@@ -1,16 +1,17 @@
 /* ================================= 
   Element Styles
 ==================================== */
-
-* {
-  box-sizing: border-box;
+*{
+  margin: 0;
+}
+img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
 }
 
-  .wrapper {
-    width: 90%;
-  }
-  .main {
-    padding: 3.8em 1.5em .75em;
-    position: relative;
-    z-index: 10;
-  }
+.square {
+    height: 250px;
+    width: 250px;
+    margin: 3px 3px 3px 3px;
+}
