@@ -12,7 +12,7 @@ obtenerFotos();
 
 /*
 Cuando se selecciona en el "cuadrolista" una categoría, 
-se vuelve a la página inicial
+y se pulsa el botón, se vuelve a la página inicial
 y se llama a la función 
 "ObtenerFotos" 
 */
@@ -24,17 +24,22 @@ boton.addEventListener("click", function () {
 /*
 Llama a la función obtener respuesta y le pasa los dos parámetros 
 (caso resolve y caso reject)
-y la API de las categorías
+y la API de las categorías que se encuentra en mi git
 */
 obtenerRespuesta("https://my-json-server.typicode.com/TamaPS/categorias/categorias").then(
     manejarRespuestaCategories,
     manejarError
 );
 
+/*
+Llama a la función obtener respuesta y le pasa los dos parámetros 
+(caso resolve y caso reject)
+y la API de las razas
+*/
 obtenerRespuesta('https://api.thecatapi.com/v1/breeds?attach_breed=0').then(
     manejarRespuestaRazas,
     manejarError
-    );
+);
 
 /*
 Función que recibe la url de la API de categorías.
@@ -67,7 +72,7 @@ function obtenerRespuesta(url) {
 Función para cargar las fotos de una determinada categoría
 */
 function obtenerFotos() {
-    obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=" + paginaActual + "&limit=6&order=asc&size=small&category_ids=" + select.value+"&breed_ids="+raza.value).then(
+    obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=" + paginaActual + "&limit=6&order=asc&size=small&category_ids=" + select.value + "&breed_ids=" + raza.value).then(
         manejarRespuestaImages,
         manejarError
     );
@@ -86,22 +91,19 @@ function manejarRespuestaCategories(respuesta) {
     document.getElementById("cuadroLista").innerHTML = categorias;
 }
 
-
-function manejarRespuestaRazas(listaRazas){
+/*
+Función para recoger la raza en el select
+por defecto es none
+*/
+function manejarRespuestaRazas(listaRazas) {
     resRazas = listaRazas[1];
     var razas = '<option value="">none</option>';
     for (var i = 0; i < resRazas.length; i++) {
         razas += '<option value="' + resRazas[i].id + '">' + resRazas[i].name + '</option>';
     }
     document.getElementById("raza").innerHTML = razas;
-
-
-
-    var raza=new Array();
-    for(var i=0; i<listaRazas.length;i++ ){
-        raza[i]=listaRazas[i].name;
-    }
 }
+
 
 /*
 Función para cambiar de página
@@ -156,7 +158,7 @@ function manejarRespuestaImages(respuesta) {
     /*
     Se añade el evento onclick a la página de retroceso
     y llama a la función cambiar página pasándole la página actual -1
-    */   
+    */
     var a = document.createElement('a');
     a.setAttribute('onclick', 'cambiarPagina(' + (paginaActual - 1) + ')');
     a.className = 'page-link';
@@ -172,7 +174,7 @@ function manejarRespuestaImages(respuesta) {
 
     /*
     Creación de los botones del 1 al 6
-    */   
+    */
     for (var i = paginaInicial; i < (paginaInicial + 6); i++) {
         if (i < numPaginas) {
             var a = document.createElement('a');
@@ -193,7 +195,7 @@ function manejarRespuestaImages(respuesta) {
     /*
     Se añade el evento onclick a la página de avance
     y llama a la función cambiar página pasándole la página actual +1
-    */   
+    */
     var a = document.createElement('a');
     a.setAttribute('onclick', 'cambiarPagina(' + (paginaActual + 1) + ')');
     a.className = 'page-link';
