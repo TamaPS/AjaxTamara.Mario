@@ -1,5 +1,6 @@
 var select = document.getElementById("cuadroLista");
 var paginacion = document.getElementById("paginacion");
+var boton = document.getElementById("botonBuscar");
 var paginaActual = 0;
 var numPaginas;
 
@@ -15,7 +16,7 @@ se vuelve a la página inicial
 y se llama a la función 
 "ObtenerFotos" 
 */
-select.addEventListener("change", function () {
+boton.addEventListener("click", function () {
     paginaActual = 0;
     obtenerFotos();
 });
@@ -25,10 +26,15 @@ Llama a la función obtener respuesta y le pasa los dos parámetros
 (caso resolve y caso reject)
 y la API de las categorías
 */
-obtenerRespuesta("https://api.thecatapi.com/v1/categories").then(
+obtenerRespuesta("https://my-json-server.typicode.com/TamaPS/categorias/categorias").then(
     manejarRespuestaCategories,
     manejarError
 );
+
+obtenerRespuesta('https://api.thecatapi.com/v1/breeds?attach_breed=0').then(
+    manejarRespuestaRazas,
+    manejarError
+    );
 
 /*
 Función que recibe la url de la API de categorías.
@@ -61,7 +67,7 @@ function obtenerRespuesta(url) {
 Función para cargar las fotos de una determinada categoría
 */
 function obtenerFotos() {
-    obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=" + paginaActual + "&limit=6&order=asc&size=small&category_ids=" + select.value).then(
+    obtenerRespuesta("https://api.thecatapi.com/v1/images/search?page=" + paginaActual + "&limit=6&order=asc&size=small&category_ids=" + select.value+"&breed_ids="+raza.value).then(
         manejarRespuestaImages,
         manejarError
     );
@@ -78,6 +84,23 @@ function manejarRespuestaCategories(respuesta) {
         categorias += '<option value="' + resCategorias[i].id + '">' + resCategorias[i].name + '</option>';
     }
     document.getElementById("cuadroLista").innerHTML = categorias;
+}
+
+
+function manejarRespuestaRazas(listaRazas){
+    resRazas = listaRazas[1];
+    var razas = '<option value="">none</option>';
+    for (var i = 0; i < resRazas.length; i++) {
+        razas += '<option value="' + resRazas[i].id + '">' + resRazas[i].name + '</option>';
+    }
+    document.getElementById("raza").innerHTML = razas;
+
+
+
+    var raza=new Array();
+    for(var i=0; i<listaRazas.length;i++ ){
+        raza[i]=listaRazas[i].name;
+    }
 }
 
 /*
